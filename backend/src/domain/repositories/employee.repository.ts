@@ -3,10 +3,9 @@ import { EmployeeValue } from "../values";
 
 export interface EmployeeRepository {
 
-  getOneEmployee(code: number): Promise<EmployeeValue | null>;
-  getManyEmployees(codes?: number[]): Promise<EmployeeValue[] | null>;
-  createEmployee(value: EmployeeModel): void;
-  updateEmployee(value: EmployeeModel): void;
-  deleteEmployee(code: number): void;
+  getEmployee(code?: number[]): Promise<EmployeeModel[]>;
+  createEmployee(value: EmployeeValue): Promise<EmployeeModel | null>;
+  updateEmployee(code: number, value: EmployeeValue): Promise<boolean>;
+  deleteEmployee(code: number): Promise<boolean>;
 
 }

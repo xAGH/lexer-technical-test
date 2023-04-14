@@ -1,6 +1,6 @@
 export class BaseValue {
-  code: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  readonly code: number;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly deletedAt: Date;
 }

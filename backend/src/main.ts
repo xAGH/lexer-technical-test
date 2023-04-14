@@ -1,23 +1,25 @@
 import express, { Application } from 'express';
-import { PostgresDataSource } from './config/database.config';
-import { Configuration } from './config';
-import { AttachMiddlewares } from './infrastructure/middleware/attach-middlewares.middleware';
-import { router } from './infrastructure/controllers/employee.controller';
+import { ApiConfig, Configuration, PostgresDataSource } from './config';
 
-PostgresDataSource
-.initialize()
-.then(() => {
-  console.log("Data Source has been initialized!")
-})
-.catch((err) => {
-  console.error("Error during Data Source initialization:", err)
-})
+/** Typeorm datasource initialization.
+ * @see https://orkhan.gitbook.io/typeorm/docs/data-source
+*/
+PostgresDataSource.initialize()
+  .then(() => {
+    console.log("The data source has been initialized successfully.")
+  })
+  .catch((err) => {
+    console.error("Error during data source initialization, check your data source configuration.\n", err)
+  })
 
 const app: Application = express();
 
-AttachMiddlewares.add(app);
-app.use(router)
+/** Application configuration -> Adding routes, cors configuration and
+ * middlewaresto the app
+ * */
+ApiConfig.configure(app);
 
+/** Application run */
 app.listen(Configuration.APP.PORT, () => {
   console.log(`Server listening on port ${Configuration.APP.PORT}.`);
 });
