@@ -1,0 +1,22 @@
+version: '3'
+
+volumes:
+  lexer-postgres-data:
+
+networks:
+  lexer-employees-backend:
+
+services:
+  lexer-employees-db:
+    image: postgres:alpine
+    container_name: lexer-postgres
+    environment:
+      - POSTGRES_USER=lexer-employees-user
+      - POSTGRES_PASSWORD=lexer-employees-pass
+      - POSTGRES_DB=employees-ms
+    ports:
+      - "5432:5432"
+    volumes:
+      - lexer-postgres-data:/var/lib/postgres/data
+    networks:
+      - lexer-employees-backend
