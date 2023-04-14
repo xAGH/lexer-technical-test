@@ -17,18 +17,24 @@ export class DatabaseEmployeeRepository implements EmployeeRepository {
     return this.dataSource.save(value);
   }
 
-  updateEmployee(code: number, value: EmployeeModel): Promise<boolean> {
-    return this.dataSource.update(code, value)
-      .then(() => true).catch((e) => {
-        console.log(e)
-        return false;
-      });
+  async updateEmployee(code: number, value: EmployeeModel): Promise<boolean> {
+    try {
+      await this.dataSource.update(code, value);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   }
 
-  deleteEmployee(code: number): Promise<boolean> {
-    return this.dataSource.softDelete({code})
-      .then(() => true).catch(() => false);
-
+  async deleteEmployee(code: number): Promise<boolean> {
+    try {
+      await this.dataSource.softDelete({ code });
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   }
 
 }

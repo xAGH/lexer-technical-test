@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cors, { CorsOptions } from 'cors';
 
-import { employeeRouter } from "../application/routes";
+import { departmentRouter, employeeRouter } from "../application/routes";
 import { ErrorHandler } from "../application/controllers";
 
 /**
@@ -49,6 +49,7 @@ export class ApiConfig {
       })
     })
     app.use(employeeRouter)
+    app.use(departmentRouter)
     return app;
   }
 

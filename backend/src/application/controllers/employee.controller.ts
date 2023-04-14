@@ -1,10 +1,10 @@
 import { RequestHandler } from "express"
 import { DatabaseEmployeeRepository } from "../../infrastructure/repositories/employee.repository"
-import { ResponseModel } from "../../domain/models/response.model"
 import { ResponseType } from "../../domain/types/response.type"
 import { EmployeeModel } from "../../domain/models"
 import { employeeSchema } from "../schemas"
 import { log } from "console"
+import { departmentExists } from "./department.controller"
 
 const employeeService = new DatabaseEmployeeRepository()
 
@@ -49,6 +49,11 @@ const saveEmploye: RequestHandler = async (req, res) => {
   }
 
   /** Validating that the department exists */
+  let depExists: boolean = await departmentExists(value.department);
+
+  if (!depExists) {
+    return res.status(400).json(new ResponseType(false, null, 'Specified department does not found.'));
+  }
 
   let saved = await employeeService.createEmployee(value);
 
@@ -77,7 +82,13 @@ const updateEmployee: RequestHandler = async (req, res) => {
     return res.status(400).json(new ResponseType(false, error, 'Errors in the sent body.'));
   }
 
-  (value as EmployeeModel).code = code;
+  console.log();
+
+  let depExists: boolean = await departmentExists(value.department);
+
+  if (!depExists) {
+    return res.status(400).json(new ResponseType(false, null, 'Specified department does not found.'));
+  }
 
   let success: boolean = await employeeService.updateEmployee(code, value)
   let response: ResponseType;
@@ -106,19 +117,18 @@ const deleteEmployee: RequestHandler = async (req, res) => {
   }
 
   let success: boolean = await employeeService.deleteEmployee(code)
+  let response: ResponseType;
 
   /** Building response object */
-  const response: ResponseType = new ResponseType(true, null, 'Employee deleted');
-
+  if(success) {
+    response = new ResponseType(true, null, 'Employee deleted');
+  } else {
+    response = new ResponseType(false, null, 'Error deleting Employee');
+  }
   return res.status(200).json(response);
 }
 
-const employeeExists = async (code: number): Promise<boolean> => {
-  let employee: EmployeeModel[] = await employeeService.getEmployee([code]);
-  return employee.length > 0;
-}
-
-const budgetExists = async (code: number): Promise<boolean> => {
+export const employeeExists = async (code: number): Promise<boolean> => {
   let employee: EmployeeModel[] = await employeeService.getEmployee([code]);
   return employee.length > 0;
 }
