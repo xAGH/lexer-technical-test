@@ -3,7 +3,6 @@ import { DatabaseEmployeeRepository } from "../../infrastructure/repositories/em
 import { ResponseType } from "../../domain/types/response.type"
 import { EmployeeModel } from "../../domain/models"
 import { employeeSchema } from "../schemas"
-import { log } from "console"
 import { departmentExists } from "./department.controller"
 
 const employeeService = new DatabaseEmployeeRepository()

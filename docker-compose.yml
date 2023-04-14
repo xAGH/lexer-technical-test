@@ -1,0 +1,52 @@
+version: '2.1'
+
+volumes:
+  lexer-postgres-data:
+
+networks:
+  lexer-employees-backend:
+
+services:
+  lexer-employees-db:
+    image: postgres:alpine
+    container_name: lexer-employees-db
+    environment:
+      - POSTGRES_USER=lexer-employees-user
+      - POSTGRES_PASSWORD=lexer-employees-pass
+      - POSTGRES_DB=employees-ms
+    ports:
+      - "5432:5432"
+    volumes:
+      - lexer-postgres-data:/var/lib/postgres/data
+    networks:
+      - lexer-employees-backend
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "employees-ms"]
+      interval: 4s
+      timeout: 20s
+      retries: 5
+      start_period: 60s
+
+  lexer-employees-back:
+    build: .
+    image: lexer-employees-back
+    container_name: lexer-employees-back
+    environment:
+      - APP_HOST=localhost
+      - APP_PORT=1234
+      - APP_ENVIRONMENT=production
+      - APP_VERSION=/api/v01
+      - DB_HOST=lexer-employees-db
+      - DB_PORT=5432
+      - DB_NAME=employees-ms
+      - DB_PASS=lexer-employees-pass
+      - DB_USER=lexer-employees-user
+    networks:
+      - lexer-employees-backend
+    restart: always
+    ports:
+      - "1234:1234"
+    depends_on:
+      lexer-employees-db:
+        condition: service_healthy

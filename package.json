@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node dist/main.js",
+    "start": "node dist/main.js",
     "dev": "npx nodemon src/main.ts"
   },
   "keywords": [],
@@ -24,7 +24,6 @@
     "morgan": "^1.10.0",
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
-    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",
     "typeorm": "^0.3.14",
     "typescript": "^5.0.4"

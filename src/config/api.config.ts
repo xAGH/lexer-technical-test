@@ -2,7 +2,6 @@ import express, { Application } from "express";
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors, { CorsOptions } from 'cors';
-import swaggerJsDOc, { Options } from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import swaggerOpts from './swagger.json';
 
