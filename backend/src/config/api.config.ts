@@ -2,6 +2,9 @@ import express, { Application } from "express";
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors, { CorsOptions } from 'cors';
+import swaggerJsDOc, { Options } from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
+import swaggerOpts from './swagger.json';
 
 import { departmentRouter, employeeRouter } from "../application/routes";
 import { ErrorHandler } from "../application/controllers";
@@ -31,6 +34,10 @@ export class ApiConfig {
     app.use(cors(this.corsOptions)); /** Cross origins protection */
     app.use(express.json()) /** Objects and prototypes serialization */
     app.use(morgan("dev")); /** Logging */
+
+    console.log(swaggerOpts)
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerOpts))
+
     app.use(ErrorHandler)
 
     return app;

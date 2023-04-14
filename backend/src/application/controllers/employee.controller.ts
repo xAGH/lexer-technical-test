@@ -73,7 +73,7 @@ const updateEmployee: RequestHandler = async (req, res) => {
   let exists: boolean = await employeeExists(code);
 
   if (!exists) {
-    return res.status(400).json(new ResponseType(false, null, 'Specified employee does not found.'));
+    return res.status(404).json(new ResponseType(false, null, 'Specified employee does not found.'));
   }
 
   /** Input body validation */
@@ -87,7 +87,7 @@ const updateEmployee: RequestHandler = async (req, res) => {
   let depExists: boolean = await departmentExists(value.department);
 
   if (!depExists) {
-    return res.status(400).json(new ResponseType(false, null, 'Specified department does not found.'));
+    return res.status(404).json(new ResponseType(false, null, 'Specified department does not found.'));
   }
 
   let success: boolean = await employeeService.updateEmployee(code, value)
@@ -113,7 +113,7 @@ const deleteEmployee: RequestHandler = async (req, res) => {
   let exists: boolean = await employeeExists(code);
 
   if (!exists) {
-    return res.status(400).json(new ResponseType(false, null, 'Specified employee does not found.'));
+    return res.status(404).json(new ResponseType(false, null, 'Specified employee does not found.'));
   }
 
   let success: boolean = await employeeService.deleteEmployee(code)

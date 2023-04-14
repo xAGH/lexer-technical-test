@@ -1,0 +1,332 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Employyee managment",
+    "description": "Employees managment application for Lexer",
+    "contact": {
+      "url": "https://github.com/xAGH",
+      "email": "alejito23001@gmai.com",
+      "name": "Alejandro Girealdo"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Lexer",
+    "url": "http://lexer.es"
+  },
+  "tags": [
+    {
+      "name": "Employee",
+      "description": "Everything about employees managment"
+    },
+    {
+      "name": "Department",
+      "description": "Everything about departments managment"
+    }
+  ],
+  "basePath": "/api/v01",
+  "paths": {
+    "/employee": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get one or many Employees",
+        "description": "Get a emplooye if query param code is provide. If code is provided with multiple values, searchs all the codes provided. If no code provided, the search returns all the employees",
+        "operationId": "getEmployee",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "Single employee code",
+            "required": false,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Add a new employee",
+        "description": "Creates a new employee with the specified data",
+        "operationId": "saveEmployee",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "schema": {
+              "type": "object",
+                "properties": {
+                  "nif": {
+                    "type": "string",
+                    "description": "Nif value that indentifies an employee. Must have length equal to 10",
+                    "example": "123456789A"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Employees name",
+                    "example": "Jhon"
+                  },
+                  "lastname1": {
+                    "type": "string",
+                    "description": "Employees first lastName",
+                    "example": "Doe"
+                  },
+                  "lastname2": {
+                    "type": "string",
+                    "description": "Employees second lastname",
+                    "example": "Doe"
+                  },
+                  "department": {
+                    "type": "integer",
+                    "description": "Employees department, the given code must be representate an existent department.",
+                    "example": 1
+                  }
+                }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Body is malformed or the given data doesnt match with existing data"
+          }
+        }
+      }
+    },
+    "/employee/{code}": {
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Update an employee",
+        "description": "Updates an employee with the specified data",
+        "operationId": "updateEmployee",
+        "parameters": [
+          {
+            "in":"path",
+            "required": true,
+            "name": "code",
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "schema": {
+              "type": "object",
+                "properties": {
+                  "nif": {
+                    "type": "string",
+                    "description": "Nif value that indentifies an employee. Must have length equal to 10",
+                    "example": "123456789A"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Employees name",
+                    "example": "Jhon"
+                  },
+                  "lastname1": {
+                    "type": "string",
+                    "description": "Employees first lastName",
+                    "example": "Doe"
+                  },
+                  "lastname2": {
+                    "type": "string",
+                    "description": "Employees second lastname",
+                    "example": "Doe"
+                  },
+                  "department": {
+                    "type": "integer",
+                    "description": "Employees department, the given code must be representate an existent department.",
+                    "example": 1
+                  }
+                }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Some specified resource not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete an employee",
+        "description": "Deletes an employee with the given code",
+        "operationId": "deleteEmployee",
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "code",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Some specified resource not found"
+          }
+        }
+      }
+    },
+    "/department": {
+      "get": {
+        "tags": [
+          "Department"
+        ],
+        "summary": "Get one or many Departments",
+        "description": "Get a department if query param code is provide. If code is provided with multiple values, searchs all the codes provided. If no code provided, the search returns all the departments",
+        "operationId": "getDepartment",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "Single employee code",
+            "required": false,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Department"
+        ],
+        "summary": "Add a new department",
+        "description": "Creates a new department with the specified data",
+        "operationId": "saveDepartment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "schema": {
+              "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Department name",
+                    "example": "Techology"
+                  },
+                  "budget": {
+                    "type": "number",
+                    "description": "Department budget",
+                    "example": 21500
+                  }
+                }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Body is malformed"
+          }
+        }
+      }
+    },
+    "/department/{code}": {
+      "put": {
+        "tags": [
+          "Department"
+        ],
+        "summary": "Update a department",
+        "description": "Updates an department with the specified data",
+        "operationId": "updateDepartment",
+        "parameters": [
+          {
+            "in":"path",
+            "required": true,
+            "name": "code",
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "schema": {
+              "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Department name",
+                    "example": "Techology"
+                  },
+                  "budget": {
+                    "type": "number",
+                    "description": "Department budget",
+                    "example": 21500
+                  }
+                }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Specified resource not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Department"
+        ],
+        "summary": "Delete an department",
+        "description": "Deletes an department with the given code",
+        "operationId": "deleteDepartment",
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "code",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Specified resource not found"
+          }
+        }
+      }
+    }
+  }
+}
